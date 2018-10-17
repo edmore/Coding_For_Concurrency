@@ -1,0 +1,4 @@
+.idea
+Actors/akka-quickstart-scala/target
+Actors/akka-quickstart-scala/project
+Actors/akka-quickstart-scala/sbt-dist
