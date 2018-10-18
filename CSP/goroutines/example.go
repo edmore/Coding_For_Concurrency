@@ -23,8 +23,8 @@ func greeter(greeter Greeter) {
 
 func main() {
 
-	go greeter(Greeter{"Howdy", "Goroutine"}) // launches goroutine
-	go greeter(Greeter{"Howdy", "Google"})
+	go greeter(Greeter{"Sawubona", "Goroutine"}) // launches goroutine
+	go greeter(Greeter{"Sawubona", "Google"})
 	go greeter(Greeter{"Hello", "Golang"})
 	go greeter(Greeter{"Good day", "Gorilla"})
 

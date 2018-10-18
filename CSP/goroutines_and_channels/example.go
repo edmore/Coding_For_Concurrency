@@ -25,8 +25,8 @@ func greeter(greeter Greeter) {
 func main() {
 	var greeting = make(chan string)
 
-	go greeter(Greeter{"Howdy", "Goroutine", greeting}) // launches goroutine
-	go greeter(Greeter{"Howdy", "Google", greeting})
+	go greeter(Greeter{"Sawubona", "Goroutine", greeting}) // launches goroutine
+	go greeter(Greeter{"Sawubona", "Google", greeting})
 	go greeter(Greeter{"Hello", "Golang", greeting})
 	go greeter(Greeter{"Good day", "Gorilla", greeting})
 
