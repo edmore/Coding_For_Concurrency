@@ -2,19 +2,19 @@ use std::thread;
 use std::sync::mpsc;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+    let (sender, receiver) = mpsc::channel(); // async channel - "infinite buffer" - no send will block, recv will blcok until a message is available
 
     for i in 0..10 {
-        let tx = tx.clone();
+        let sender = sender.clone(); // cloned so it sends to sam channel multiple times, only one receiver supported
 
         thread::spawn(move || {
             let answer = i * i;
 
-            tx.send(answer).unwrap();
+            sender.send(answer).unwrap();
         });
     }
 
     for _ in 0..10 {
-        println!("{}", rx.recv().unwrap());
+        println!("{}", receiver.recv().unwrap());
     }
 }
