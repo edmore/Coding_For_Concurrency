@@ -72,6 +72,7 @@ object AkkaQuickstart extends App {
   val printer: ActorRef = system.actorOf(Printer.props, "printerActor") // an actor reference
 
   // Create the 'greeter' actors
+  // an ActorRef points to a reference of the actor, suitable for distributed systems as it can represent an actor in-process or on a remote machine
   val howdyGreeter: ActorRef =
     system.actorOf(Greeter.props("Howdy", printer), "howdyGreeter") // names used for lookups are important
   val helloGreeter: ActorRef =
