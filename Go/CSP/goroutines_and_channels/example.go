@@ -5,27 +5,27 @@ import (
 	"time"
 )
 
-type Coffee struct {
-	HowMany       int
+type CoffeeOrder struct {
+	HowMany    int
 	WhatToMake string
-	Order   chan string
+	Order      chan string
 }
 
-func processOrder(coffee Coffee) {
-	message := fmt.Sprintf("%d, %s", coffee.HowMany, coffee.WhatToMake)
-	coffee.Order <- fmt.Sprintf("Order : %s", message)
+func processOrder(order CoffeeOrder) {
+	message := fmt.Sprintf("%d, %s", order.HowMany, order.WhatToMake)
+	order.Order <- fmt.Sprintf("Order : %s", message)
 }
 
 func main() {
-	var Order = make(chan string)
+	var order = make(chan string)
 
-	go processOrder(Coffee{1, "Espresso", Order})
-	go processOrder(Coffee{2, "Flat White", Order})
+	go processOrder(CoffeeOrder{1, "Espresso", order})
+	go processOrder(CoffeeOrder{2, "Flat White", order})
 
 	// Brew
 	for {
 		select {
-		case message := <-Order: // synchronization
+		case message := <-order: // synchronization
 			fmt.Println("Brewing ... ", message)
 		case <-time.After(3 * time.Second):
 			fmt.Println("thank you ...")
