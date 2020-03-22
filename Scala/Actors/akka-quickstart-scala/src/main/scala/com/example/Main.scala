@@ -47,16 +47,15 @@ object Main extends App {
   // Create printer actor
   val printer: ActorRef = system.actorOf(Printer.props, "printerActor")
   // Create the 'coffee drinker' actors
-  val espressoLover: ActorRef =
-    system.actorOf(Barista.props(printer), "espressoLover")
-  val flatWhiteLover: ActorRef =
-    system.actorOf(Barista.props(printer), "flatWhiteLover")
+  val espressoDrinker: ActorRef =
+    system.actorOf(Barista.props(printer), "espressoDrinker")
+  val flatWhiteDrinker: ActorRef =
+    system.actorOf(Barista.props(printer), "flatWhiteDrinker")
 
   // send messages
-  espressoLover ! WhatToMake("Espresso", 1)
-  espressoLover ! MakePayment
+  espressoDrinker ! WhatToMake("Espresso", 1)
+  espressoDrinker ! MakePayment
 
-  flatWhiteLover ! WhatToMake("Flat White", 2)
-  flatWhiteLover ! MakePayment
+  flatWhiteDrinker ! WhatToMake("Flat White", 2)
+  flatWhiteDrinker ! MakePayment
 }
-
