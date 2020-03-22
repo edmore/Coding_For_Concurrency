@@ -10,18 +10,18 @@ object Barista {
 
   final case class WhatToMake(typeOfCoffee: String, number: Int)
 
-  case object MakePayment
+  case object PrintOrder
 
 }
 
 class Barista(printerActor: ActorRef) extends Actor {
-  var order = "" // state
+  var order = "" // shared state
 
   def receive = {
     case WhatToMake(typeOfCoffee, number) =>
       order = number + ", " + typeOfCoffee // updates the "order" state
-    case MakePayment =>
-      printerActor ! PrintReceipt(order) // print receipt
+    case PrintOrder =>
+      printerActor ! Order(order) // print order
   }
 }
 
@@ -29,14 +29,14 @@ class Barista(printerActor: ActorRef) extends Actor {
 object Printer {
   def props: Props = Props[Printer]
 
-  final case class PrintReceipt(order: String)
+  final case class Order(order: String)
 
 }
 
-class Printer extends Actor with ActorLogging { // extends logger as well
+class Printer extends Actor with ActorLogging {
   def receive = {
-    case PrintReceipt(order) =>
-      log.info("Payment received (from " + sender() + "): " + order) // prints receipt
+    case Order(order) =>
+      log.info("Order: " + order) // prints order
   }
 }
 
@@ -47,15 +47,13 @@ object Main extends App {
   // Create printer actor
   val printer: ActorRef = system.actorOf(Printer.props, "printerActor")
   // Create the 'coffee drinker' actors
-  val espressoDrinker: ActorRef =
-    system.actorOf(Barista.props(printer), "espressoDrinker")
-  val flatWhiteDrinker: ActorRef =
-    system.actorOf(Barista.props(printer), "flatWhiteDrinker")
+  val barista: ActorRef =
+    system.actorOf(Barista.props(printer), "Barista")
 
-  // send messages
-  espressoDrinker ! WhatToMake("Espresso", 1)
-  espressoDrinker ! MakePayment
+  // send messages to Barista from main class
+  barista ! WhatToMake("Espresso", 1)
+  barista ! PrintOrder
 
-  flatWhiteDrinker ! WhatToMake("Flat White", 2)
-  flatWhiteDrinker ! MakePayment
+  barista ! WhatToMake("Flat White", 2)
+  barista ! PrintOrder
 }
