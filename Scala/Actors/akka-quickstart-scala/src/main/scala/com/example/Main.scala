@@ -46,7 +46,7 @@ object Main extends App {
 
   // Create printer actor
   val printer: ActorRef = system.actorOf(Printer.props, "printerActor")
-  // Create the 'coffee drinker' actors
+  // Create the 'barista' actor
   val barista: ActorRef =
     system.actorOf(Barista.props(printer), "Barista")
 
