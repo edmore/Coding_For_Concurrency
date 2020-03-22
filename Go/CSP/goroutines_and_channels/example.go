@@ -5,38 +5,30 @@ import (
 	"time"
 )
 
-// Greeter defines a greeter type
-type Greeter struct {
-	Name       string
-	WhoToGreet string
-	Greeting   chan string
+type Coffee struct {
+	HowMany       int
+	WhatToMake string
+	Order   chan string
 }
 
-func printerProxy(greeter Greeter) {
-	message := fmt.Sprintf("%s, %s", greeter.Name, greeter.WhoToGreet)
-	greeter.Greeting <- fmt.Sprintf("Greeting received (from %s Greeter): %s", greeter.Name, message)
-}
-
-func greeter(greeter Greeter) {
-	// greet
-	printerProxy(greeter) // launch printer proxy goroutine
+func processOrder(coffee Coffee) {
+	message := fmt.Sprintf("%d, %s", coffee.HowMany, coffee.WhatToMake)
+	coffee.Order <- fmt.Sprintf("Order : %s", message)
 }
 
 func main() {
-	var greeting = make(chan string)
+	var Order = make(chan string)
 
-	go greeter(Greeter{"Sawubona", "Goroutine", greeting}) // launches goroutine
-	go greeter(Greeter{"Sawubona", "Google", greeting})
-	go greeter(Greeter{"Hello", "Golang", greeting})
-	go greeter(Greeter{"Good day", "Gorilla", greeting})
+	go processOrder(Coffee{1, "Espresso", Order})
+	go processOrder(Coffee{2, "Flat White", Order})
 
-	// print in main goroutine
+	// Brew
 	for {
 		select {
-		case message := <-greeting:
-			fmt.Println(message)
+		case message := <-Order: // synchronization
+			fmt.Println("Brewing ... ", message)
 		case <-time.After(3 * time.Second):
-			fmt.Println("bye ...")
+			fmt.Println("thank you ...")
 			return
 		}
 	}

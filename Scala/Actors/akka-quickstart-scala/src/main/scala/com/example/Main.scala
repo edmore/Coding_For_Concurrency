@@ -2,41 +2,41 @@ package com.example
 
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
 import Barista._
-import Printer._
+import CoffeeMachine._
 
 // Barista companion object
 object Barista {
-  def props(printerActor: ActorRef): Props = Props(new Barista(printerActor))
+  def props(coffeeMachineActor: ActorRef): Props = Props(new Barista(coffeeMachineActor))
 
   final case class WhatToMake(typeOfCoffee: String, number: Int)
 
-  case object PrintOrder
+  case object Brew
 
 }
 
-class Barista(printerActor: ActorRef) extends Actor {
+class Barista(machine: ActorRef) extends Actor {
   var order = "" // shared state
 
   def receive = {
     case WhatToMake(typeOfCoffee, number) =>
       order = number + ", " + typeOfCoffee // updates the "order" state
-    case PrintOrder =>
-      printerActor ! Order(order) // print order
+    case Brew =>
+      machine ! MakeCoffee(order) // brew coffee
   }
 }
 
-// printer companion object
-object Printer {
-  def props: Props = Props[Printer]
+// machine companion object
+object CoffeeMachine {
+  def props: Props = Props[CoffeeMachine]
 
-  final case class Order(order: String)
+  final case class MakeCoffee(order: String)
 
 }
 
-class Printer extends Actor with ActorLogging {
+class CoffeeMachine extends Actor with ActorLogging {
   def receive = {
-    case Order(order) =>
-      log.info("Order: " + order) // prints order
+    case MakeCoffee(order) =>
+      log.info("Brewing ... " + order) // prints order
   }
 }
 
@@ -44,16 +44,16 @@ object Main extends App {
   // Create the 'CoffeeWorld' actor system
   val system: ActorSystem = ActorSystem("CoffeeWorld")
 
-  // Create printer actor
-  val printer: ActorRef = system.actorOf(Printer.props, "printerActor")
+  // Create machine actor
+  val machine: ActorRef = system.actorOf(CoffeeMachine.props, "Machine")
   // Create the 'barista' actor
   val barista: ActorRef =
-    system.actorOf(Barista.props(printer), "Barista")
+    system.actorOf(Barista.props(machine), "Barista")
 
   // send messages to Barista from main
   barista ! WhatToMake("Espresso", 1)
-  barista ! PrintOrder
+  barista ! Brew
 
   barista ! WhatToMake("Flat White", 2)
-  barista ! PrintOrder
+  barista ! Brew
 }
