@@ -11,7 +11,7 @@ fn main() {
 
         // Allowing this would be a bad idea: once the value has been sent to another thread,
         // that thread could modify or drop it before we try to use the value again.
-        println!("Brewing ... {}", coffee_order);
+        // println!("Brewing ... {}", coffee_order);
     });
 
     let received = receiver.recv().unwrap();
