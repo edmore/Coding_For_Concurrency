@@ -50,7 +50,7 @@ object Main extends App {
   val barista: ActorRef =
     system.actorOf(Barista.props(printer), "Barista")
 
-  // send messages to Barista from main class
+  // send messages to Barista from main
   barista ! WhatToMake("Espresso", 1)
   barista ! PrintOrder
 
