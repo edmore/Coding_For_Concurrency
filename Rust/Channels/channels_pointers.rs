@@ -9,13 +9,14 @@ fn main() {
         let mutable_coffee_order_ref = &mut mutable_coffee_order;
         *mutable_coffee_order_ref =  String::from("1, Flat White");
 
-        println!("Preparing to brew ... {}", mutable_coffee_order);
+        println!("Preparing to brew ... {}", mutable_coffee_order_ref);
 
         sender.send(mutable_coffee_order).unwrap();
 
         // once the value has been sent to another thread,
         // that thread could modify it, so we should not be using it
-        // println!("Brewing ... {}", mutable_coffee_order);
+        // *mutable_coffee_order_ref =  String::from("1, Whatever");
+        // println!("Brewing ... {}", mutable_coffee_order_ref);
     });
 
     let received = receiver.recv().unwrap();
