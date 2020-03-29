@@ -31,7 +31,7 @@ func main() {
 		case customerOrder := <-order:
 			fmt.Println("Brewing ... ", *customerOrder)
 		case <-time.After(3 * time.Second):
-			fmt.Println("thank you ...")
+			fmt.Println("oops ...")
 			return
 		}
 	}
