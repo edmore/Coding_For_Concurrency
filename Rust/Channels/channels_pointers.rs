@@ -15,7 +15,7 @@ fn main() {
 
         // once the value has been sent to another thread,
         // that thread could modify it, so we should not be using it
-        // *mutable_coffee_order_ref =  String::from("1, Whatever");
+        // *mutable_coffee_order_ref =  String::from("1, Cappuccino");
         // println!("Brewing ... {}", mutable_coffee_order_ref);
     });
 
