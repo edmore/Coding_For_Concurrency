@@ -10,7 +10,8 @@ I ran `sbt run` on the terminal to run the program, you should be able to use an
 
 Go:
 
-You need go to be installed on your machine: https://golang.org/dl/. I then ran  `go run example.go` on the terminal in the respective folders.
+You need `go` to be installed on your machine: https://golang.org/dl/. 
+I then ran  `go run example.go` on the terminal in the respective folders.
 
 Rust:
 
