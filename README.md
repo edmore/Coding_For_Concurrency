@@ -3,7 +3,7 @@ Coding for Concurrency Examples
 
 To run the examples you will need to install the dependencies relevant to each language:
 
-Scala: 
+Scala:
 
 I updated the AKKA quick-start guide: https://developer.lightbend.com/guides/akka-quickstart-scala
 I ran `sbt run` on the terminal to run the program, you should be able to use an IDE such as Intellij to run it as well (I just used the terminal)
