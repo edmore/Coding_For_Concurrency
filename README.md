@@ -1,6 +1,8 @@
 # Coding_For_Concurrency
 Coding for Concurrency Examples
 
+These examples were done for this talk: https://www.youtube.com/watch?v=iiQOZNOwPv4
+
 To run the examples you will need to install the dependencies relevant to each language.
 
 Scala:
